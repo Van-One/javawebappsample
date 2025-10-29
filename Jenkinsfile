@@ -8,8 +8,8 @@ def getFtpPublishProfile(def publishProfilesJson) {
 }
 
 node {
-  withEnv(['AZURE_SUBSCRIPTION_ID=<subscription_id>',
-        'AZURE_TENANT_ID=<tenant_id>']) {
+  withEnv(['AZURE_SUBSCRIPTION_ID=54c4a6cd-9b46-40d5-957b-e5c100476acc',
+        'AZURE_TENANT_ID=3c6b3ae0-fb72-4656-bf2b-f4e7fd5fa0ba']) {
     stage('init') {
       checkout scm
     }
@@ -19,10 +19,10 @@ node {
     }
   
     stage('deploy') {
-      def resourceGroup = '<resource_group>'
-      def webAppName = '<app_name>'
+      def resourceGroup = 'jenkins-westus3-rg'
+      def webAppName = 'jenkins-webapp-14549'
       // login Azure
-      withCredentials([usernamePassword(credentialsId: '<service_princial>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+      withCredentials([usernamePassword(credentialsId: 'AzureServicePrincipal', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
        sh '''
           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
